@@ -1,14 +1,29 @@
 import angr
 import claripy
 
-proj = angr.Project('./simple-io', main_opts={'base_addr': 0}, auto_load_libs=False)
 
-arg = claripy.BVS('arg', 8*0x20)
+def correct(state):
+    try:
+        return b"good job!" in state.posix.dumps(1)
+    except:
+        return False
 
-state = proj.factory.entry_state(args=['./simple-io', arg])
+
+def wrong(state):
+    try:
+        return b"wrong" in state.posix.dumps(1)
+    except:
+        return False
+
+
+proj = angr.Project("./stdin-strcmp", main_opts={"base_addr": 0}, auto_load_libs=False)
+arg = claripy.BVS("arg", 8 * 0x20)
+
+state = proj.factory.entry_state(args=["./stdin-strcmp", arg])
+
 simgr = proj.factory.simulation_manager(state)
-# simgr.explore(find=0x7d5, avoid=[0x7e3])
-simgr.explore(find=0x11be, avoid=[0x11cf])
+# simgr.explore(find=0x11be, avoid=[0x11cf]) # OK
+simgr.explore(find=correct, avoid=wrong)  # OK
 print("len(simgr.found) = {}".format(len(simgr.found)))
 
 if len(simgr.found) > 0:
@@ -17,7 +32,7 @@ if len(simgr.found) > 0:
     print("stdin = {!r}".format(s.posix.dumps(0)))
 
 # src: [https://gist.github.com/inaz2/c812671841f97804c24ba6650b1b2500]
-# gcc simple-io.c -o simple-io
+# gcc stdin-strcmp.c -o stdin-strcmp
 
 # (gdb) disassemble main
 # Dump of assembler code for function main:
@@ -59,4 +74,3 @@ if len(simgr.found) > 0:
 #    0x00000000000011e3 <+138>:   leave
 #    0x00000000000011e4 <+139>:   ret
 # End of assembler dump.
-

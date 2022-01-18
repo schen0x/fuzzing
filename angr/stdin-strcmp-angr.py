@@ -23,7 +23,8 @@ state = proj.factory.entry_state(args=["./stdin-strcmp", arg])
 
 simgr = proj.factory.simulation_manager(state)
 # simgr.explore(find=0x11be, avoid=[0x11cf]) # OK
-simgr.explore(find=correct, avoid=wrong)  # OK
+# simgr.explore(find=correct, avoid=wrong)  # OK
+simgr.explore(find=lambda s: b"good job!" in s.posix.dumps(1), avoid=wrong)  # OK
 print("len(simgr.found) = {}".format(len(simgr.found)))
 
 if len(simgr.found) > 0:

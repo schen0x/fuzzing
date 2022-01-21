@@ -19,18 +19,13 @@
 ### ANGR CUSTOM SETUP
 
 ```sh
-# Step1: According to the document
-sudo apt-get install python3-dev libffi-dev build-essential virtualenv
-
-# Step2:
+# (as root)
+apt-get install python3-dev libffi-dev build-essential virtualenv
 virtualenv --python=$(which python3) /opt/angr
-
-# Step3:
 echo -e 'source /opt/angr/activate\n' > /usr/local/bin/angr
 
-# Step4:
 source angr
-pip install angr
+pip install angr monkeyhex
 ```
 
 ### ANGR-TOP LEVEL INTERFACES

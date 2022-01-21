@@ -5,6 +5,7 @@
 - [fuzzing](#fuzzing)
   - [TABLE OF CONTENTS](#table-of-contents)
   - [ANGR](#angr)
+    - [ANGR CUSTOM SETUP](#angr-custom-setup)
     - [ANGR-TOP LEVEL INTERFACES](#angr-top-level-interfaces)
     - [ANGR-LOADING A BINARY](#angr-loading-a-binary)
     - [ANGR-SOLVER ENGINE](#angr-solver-engine)
@@ -14,6 +15,23 @@
 ## ANGR
 
 - [angr doc](https://docs.angr.io/core-concepts)
+
+### ANGR CUSTOM SETUP
+
+```sh
+# Step1: According to the document
+sudo apt-get install python3-dev libffi-dev build-essential virtualenv
+
+# Step2:
+virtualenv --python=$(which python3) /opt/angr
+
+# Step3:
+echo -e 'source /opt/angr/activate\n' > /usr/local/bin/angr
+
+# Step4:
+source angr
+pip install angr
+```
 
 ### ANGR-TOP LEVEL INTERFACES
 

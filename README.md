@@ -19,10 +19,9 @@
 ### ANGR CUSTOM SETUP
 
 ```sh
-# (as root)
-apt-get install python3-dev libffi-dev build-essential virtualenv
-virtualenv --python=$(which python3) /opt/angr
-echo -e 'source /opt/angr/activate\n' > /usr/local/bin/angr
+sudo apt-get install python3-dev libffi-dev build-essential virtualenv ipython
+virtualenv --python=$(which python3) ~/local/angr
+echo -e 'source /home/<user>/local/angr/bin/activate\n' > ~/.local/bin/angr
 
 source angr
 pip install angr monkeyhex
@@ -34,7 +33,7 @@ pip install angr monkeyhex
 ipython3
 import angr
 import claripy
-import monkey                                # print int as hex in ipython
+import monkeyhex                             # print int as hex in ipython
 p = angr.Project('/bin/true', auto_load_libs=False)
 hex(p.entry)
 p.arch.name
